@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HealthCalc by KLYDO - المنصة الصحية المتقدمة</title>
+    
+    <!-- Google AdSense Main Script -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3466417946775081" crossorigin="anonymous"></script>
+
     <!-- خط Alexandria ومكتبة FontAwesome -->
     <link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -21,7 +25,6 @@
             --text-white: #f9fafb;
             --text-muted: #9ca3af;
             
-            /* ألوان النطاقات الصحية */
             --color-underweight: #3b82f6;
             --color-normal: #10b981;
             --color-overweight: #f59e0b;
@@ -139,45 +142,19 @@
             50% { transform: translateY(-10px); }
         }
 
-        /* --- Google AdSense Container Styling --- */
+        /* --- AdSense Styling --- */
         .ad-container {
             width: 100%;
             display: flex;
             justify-content: center;
             align-items: center;
             margin: 15px 0;
-        }
-
-        .ad-placeholder {
-            width: 100%;
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px dashed rgba(255, 255, 255, 0.15);
+            overflow: hidden;
             border-radius: 16px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 15px;
-            color: var(--text-muted);
-            font-size: 12px;
-            text-align: center;
-            min-height: 90px;
-            backdrop-filter: blur(8px);
         }
 
-        .ad-placeholder i {
-            font-size: 18px;
-            margin-bottom: 6px;
-            color: var(--accent-cyan);
-        }
-
-        .ad-top-slot {
-            margin: 0 8% 20px;
-        }
-
-        .ad-bottom-slot {
-            margin: 20px 8% 30px;
-        }
+        .ad-top-slot { margin: 0 8% 20px; }
+        .ad-bottom-slot { margin: 20px 8% 30px; }
 
         /* --- Main Layout --- */
         .main-container {
@@ -353,7 +330,6 @@
             gap: 30px;
         }
 
-        /* SVG Circular Gauge */
         .circular-gauge-container {
             position: relative;
             width: 180px;
@@ -392,7 +368,6 @@
         .gauge-val { font-size: 34px; font-weight: 800; line-height: 1; }
         .gauge-unit { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
 
-        /* Dynamic Status Banner */
         .status-banner {
             flex: 1;
             padding: 18px 20px;
@@ -408,13 +383,11 @@
         .status-info h4 { font-size: 16px; font-weight: 700; margin-bottom: 6px; }
         .status-info p { font-size: 13px; opacity: 0.9; line-height: 1.6; }
 
-        /* Status Colors */
         .status-underweight { background: rgba(59, 130, 246, 0.12); border-color: rgba(59, 130, 246, 0.35); color: var(--color-underweight); }
         .status-normal { background: rgba(16, 185, 129, 0.12); border-color: rgba(16, 185, 129, 0.35); color: var(--color-normal); }
         .status-overweight { background: rgba(245, 158, 11, 0.12); border-color: rgba(245, 158, 11, 0.35); color: var(--color-overweight); }
         .status-obese { background: rgba(239, 68, 68, 0.12); border-color: rgba(239, 68, 68, 0.35); color: var(--color-obese); }
 
-        /* Metric Cards Grid */
         .cards-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
@@ -443,7 +416,6 @@
         .info-card-icon { color: var(--accent-purple); font-size: 14px; }
         .info-card-val { font-size: 16px; font-weight: 700; color: #fff; }
 
-        /* Calorie Goals & Macros Layout */
         .details-split-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -480,7 +452,6 @@
         .data-list-item span { color: var(--text-muted); }
         .data-list-item strong { color: #fff; font-weight: 600; }
 
-        /* Quick Action Bar */
         .actions-bar {
             display: flex;
             gap: 12px;
@@ -524,7 +495,6 @@
 
         .btn-action-secondary:hover { border-color: var(--accent-purple); transform: translateY(-2px); }
 
-        /* --- Footer --- */
         footer {
             border-top: 1px solid var(--card-border);
             background: rgba(7, 10, 18, 0.8);
@@ -536,20 +506,9 @@
             backdrop-filter: blur(10px);
         }
 
-        .footer-nav {
-            display: flex;
-            gap: 20px;
-            list-style: none;
-        }
-
-        .footer-nav a {
-            color: var(--text-muted);
-            text-decoration: none;
-            font-size: 13px;
-        }
-
+        .footer-nav { display: flex; gap: 20px; list-style: none; }
+        .footer-nav a { color: var(--text-muted); text-decoration: none; font-size: 13px; }
         .footer-nav a:hover { color: var(--accent-purple); }
-
         .footer-copy { font-size: 12px; color: rgba(255,255,255,0.3); }
 
         @media print {
@@ -562,7 +521,6 @@
             .status-banner { border: 1px solid #aaa; color: #000 !important; background: #f0f0f0 !important; }
         }
 
-        /* --- Responsive Design --- */
         @media (max-width: 990px) {
             .hero { flex-direction: column; text-align: center; }
             .main-container { grid-template-columns: 1fr; }
@@ -609,12 +567,13 @@
 
     <!-- 1. Google AdSense - Top Responsive Banner -->
     <div class="ad-container ad-top-slot">
-        <div class="ad-placeholder">
-            <i class="fa-rectangle-ad"></i>
-            <span>مساحة إعلانية علوية (Google AdSense Header Banner)</span>
-            <!-- استبدل هذا المكان بكود جوجل أدسينس الخاص بك مستقبلاً -->
-            <!-- <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="XXXXXXXXXX" data-ad-format="auto" data-full-width-responsive="true"></ins> -->
-        </div>
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-3466417946775081"
+             data-ad-slot="1234567890"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
     </div>
 
     <!-- Main Application -->
@@ -626,7 +585,6 @@
                 <h2 class="section-title" id="lblInputsTitle">البيانات الشخصية</h2>
             </div>
 
-            <!-- Gender -->
             <div class="input-group">
                 <div class="input-label-row">
                     <label class="input-label" id="lblGender">الجنس</label>
@@ -641,7 +599,6 @@
                 </div>
             </div>
 
-            <!-- Age -->
             <div class="input-group">
                 <div class="input-label-row">
                     <label class="input-label" id="lblAge">العمر (سنة)</label>
@@ -654,7 +611,6 @@
                 </div>
             </div>
 
-            <!-- Height -->
             <div class="input-group">
                 <div class="input-label-row">
                     <label class="input-label" id="lblHeight">الطول (سم)</label>
@@ -667,7 +623,6 @@
                 </div>
             </div>
 
-            <!-- Weight -->
             <div class="input-group">
                 <div class="input-label-row">
                     <label class="input-label" id="lblWeight">الوزن (كجم)</label>
@@ -680,7 +635,6 @@
                 </div>
             </div>
 
-            <!-- Activity Level -->
             <div class="input-group">
                 <div class="input-label-row">
                     <label class="input-label" id="lblActivity">مستوى النشاط البدني</label>
@@ -709,7 +663,6 @@
                 <h2 class="section-title" id="lblResultsTitle">النتائج والتحليلات الطبية</h2>
             </div>
 
-            <!-- Top Row: SVG Circular Gauge + Dynamic Status Banner -->
             <div class="results-top-flex">
                 <div class="circular-gauge-container">
                     <svg viewBox="0 0 160 160">
@@ -731,7 +684,6 @@
                 </div>
             </div>
 
-            <!-- Grid Cards: Basic Metrics -->
             <div class="cards-grid">
                 <div class="info-card">
                     <div class="info-card-head">
@@ -768,16 +720,16 @@
 
             <!-- 2. Google AdSense - Native In-Feed Card -->
             <div class="ad-container">
-                <div class="ad-placeholder" style="min-height: 80px;">
-                    <i class="fa-solid fa-ad"></i>
-                    <span>مساحة إعلانية داخلية (In-Feed Ad Unit)</span>
-                    <!-- <ins class="adsbygoogle" style="display:block" data-ad-format="fluid" data-ad-layout-key="-fb+5w+4e-db+86" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="XXXXXXXXXX"></ins> -->
-                </div>
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-format="fluid"
+                     data-ad-layout-key="-fb+5w+4e-db+86"
+                     data-ad-client="ca-pub-3466417946775081"
+                     data-ad-slot="1234567891"></ins>
+                <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
             </div>
 
-            <!-- Detailed Grid: Calorie Goals & Daily Macros -->
             <div class="details-split-grid">
-                <!-- Calorie Targets -->
                 <div class="sub-block">
                     <div class="sub-block-title">
                         <i class="fa-solid fa-calculator"></i>
@@ -797,7 +749,6 @@
                     </div>
                 </div>
 
-                <!-- Daily Macros -->
                 <div class="sub-block">
                     <div class="sub-block-title">
                         <i class="fa-solid fa-pie-chart"></i>
@@ -818,7 +769,6 @@
                 </div>
             </div>
 
-            <!-- Action Bar -->
             <div class="actions-bar">
                 <button class="btn-action-primary" onclick="exportPDF()" aria-label="تحميل PDF">
                     <i class="fa-solid fa-file-pdf"></i>
@@ -835,11 +785,13 @@
 
     <!-- 3. Google AdSense - Bottom Banner -->
     <div class="ad-container ad-bottom-slot">
-        <div class="ad-placeholder">
-            <i class="fa-rectangle-ad"></i>
-            <span>مساحة إعلانية سفلية (Google AdSense Bottom Banner)</span>
-            <!-- <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="XXXXXXXXXX" data-ad-format="auto" data-full-width-responsive="true"></ins> -->
-        </div>
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-3466417946775081"
+             data-ad-slot="1234567892"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
     </div>
 
     <!-- Footer -->
@@ -1003,29 +955,22 @@
             const heightM = height / 100;
             const bmi = parseFloat((weight / (heightM * heightM)).toFixed(1));
 
-            // BMR Calculation
             let bmr = (10 * weight) + (6.25 * height) - (5 * age);
             bmr = currentGender === 'male' ? bmr + 5 : bmr - 161;
             bmr = Math.round(bmr);
 
-            // TDEE Calculation
             const tdee = Math.round(bmr * activity);
 
-            // Ideal Weight Calculations
             const minIdeal = parseFloat((18.5 * heightM * heightM).toFixed(1));
             const maxIdeal = parseFloat((24.9 * heightM * heightM).toFixed(1));
-
-            // Water Requirement
             const dailyWater = (weight * 0.035).toFixed(1);
 
-            // Macros
             const proteinGrams = Math.round(weight * 1.8);
             const fatGrams = Math.round((tdee * 0.25) / 9);
             const carbGrams = Math.round((tdee - (proteinGrams * 4 + fatGrams * 9)) / 4);
 
             const lang = i18n[currentLang];
 
-            // Counters Animation
             animateCounter('bmiVal', bmi, 1);
             animateCounter('bmrVal', bmr, 0, ` ${lang.unitKcal}`);
             animateCounter('tdeeVal', tdee, 0, ` ${lang.unitKcal}`);
@@ -1040,7 +985,6 @@
 
             document.getElementById('idealVal').textContent = `${minIdeal.toFixed(0)} - ${maxIdeal.toFixed(0)} ${lang.unitKg}`;
 
-            // Gauge SVG Circle Animation
             const circleCircumference = 440;
             const bmiClamped = Math.min(Math.max(bmi, 10), 40);
             const pct = (bmiClamped - 10) / (40 - 10);
@@ -1049,7 +993,6 @@
             const gaugeCircle = document.getElementById('gaugeProgress');
             gaugeCircle.style.strokeDashoffset = strokeOffset;
 
-            // Status Banner Elements
             const banner = document.getElementById('statusBanner');
             const statusIcon = document.getElementById('statusIcon');
             const statusTitle = document.getElementById('statusTitle');
@@ -1149,8 +1092,5 @@
 
         window.addEventListener('DOMContentLoaded', calculateHealthMetrics);
     </script>
-
-    <!-- Google AdSense Script (قم بإلغاء التعليق وضع معرف الحساب الخاص بك هنا بعد القبول) -->
-    <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script> -->
 </body>
 </html>
