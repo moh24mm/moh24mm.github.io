@@ -1,0 +1,1156 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HealthCalc by KLYDO - المنصة الصحية المتقدمة</title>
+    <!-- خط Alexandria ومكتبة FontAwesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg-gradient: linear-gradient(135deg, #070a12 0%, #0f172a 50%, #1e112a 100%);
+            --card-bg: rgba(17, 24, 39, 0.7);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --input-bg: rgba(31, 41, 61, 0.6);
+            --input-border: rgba(255, 255, 255, 0.12);
+            --accent-purple: #8b5cf6;
+            --accent-cyan: #06b6d4;
+            --accent-gradient: linear-gradient(135deg, #6366f1, #8b5cf6, #d946ef);
+            --text-white: #f9fafb;
+            --text-muted: #9ca3af;
+            
+            /* ألوان النطاقات الصحية */
+            --color-underweight: #3b82f6;
+            --color-normal: #10b981;
+            --color-overweight: #f59e0b;
+            --color-obese: #ef4444;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Alexandria', sans-serif;
+            transition: background-color 0.3s, border-color 0.3s, color 0.3s;
+        }
+
+        body {
+            background: var(--bg-gradient);
+            background-attachment: fixed;
+            color: var(--text-white);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            overflow-x: hidden;
+        }
+
+        /* --- Header & Lang Switcher --- */
+        header {
+            padding: 20px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--card-border);
+            backdrop-filter: blur(10px);
+        }
+
+        .brand-logo {
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .btn-lang {
+            background: var(--input-bg);
+            border: 1px solid var(--input-border);
+            color: var(--text-white);
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-lang:hover {
+            border-color: var(--accent-purple);
+            box-shadow: 0 0 12px rgba(139, 92, 246, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 40px 8% 20px;
+            gap: 40px;
+        }
+
+        .hero-text { max-width: 580px; }
+        .hero-title { font-size: 36px; font-weight: 800; margin-bottom: 12px; line-height: 1.3; }
+        .hero-title span { background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .hero-desc { color: var(--text-muted); font-size: 14px; line-height: 1.8; margin-bottom: 24px; }
+
+        .hero-illustration {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hero-logo-wrapper {
+            position: relative;
+            padding: 6px;
+            border-radius: 50%;
+            background: var(--accent-gradient);
+            box-shadow: 0 15px 35px rgba(139, 92, 246, 0.35);
+            animation: floatLogo 4s ease-in-out infinite;
+        }
+
+        .hero-logo-img {
+            width: 220px;
+            height: 220px;
+            object-fit: cover;
+            border-radius: 50%;
+            display: block;
+            background: var(--card-bg);
+        }
+
+        @keyframes floatLogo {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* --- Google AdSense Container Styling --- */
+        .ad-container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 15px 0;
+        }
+
+        .ad-placeholder {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px dashed rgba(255, 255, 255, 0.15);
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+            color: var(--text-muted);
+            font-size: 12px;
+            text-align: center;
+            min-height: 90px;
+            backdrop-filter: blur(8px);
+        }
+
+        .ad-placeholder i {
+            font-size: 18px;
+            margin-bottom: 6px;
+            color: var(--accent-cyan);
+        }
+
+        .ad-top-slot {
+            margin: 0 8% 20px;
+        }
+
+        .ad-bottom-slot {
+            margin: 20px 8% 30px;
+        }
+
+        /* --- Main Layout --- */
+        .main-container {
+            margin: 10px 8% 20px;
+            display: grid;
+            grid-template-columns: 380px 1fr;
+            gap: 30px;
+        }
+
+        .glass-panel {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 24px;
+            padding: 28px;
+            backdrop-filter: blur(16px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+            position: relative;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 22px;
+        }
+
+        .section-title { font-size: 18px; font-weight: 700; }
+
+        /* --- Inputs Styling --- */
+        .input-group { margin-bottom: 18px; }
+        .input-label-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+        .input-label { font-size: 13px; color: var(--text-muted); }
+
+        .tooltip-icon {
+            color: var(--accent-purple);
+            cursor: pointer;
+            font-size: 12px;
+            position: relative;
+        }
+
+        .tooltip-icon:hover::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 130%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1f293d;
+            color: #fff;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 11px;
+            white-space: nowrap;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+            border: 1px solid rgba(255,255,255,0.1);
+            z-index: 100;
+        }
+
+        .number-control {
+            display: flex;
+            align-items: center;
+            background: var(--input-bg);
+            border: 1px solid var(--input-border);
+            border-radius: 12px;
+            padding: 4px;
+        }
+
+        .number-control:focus-within {
+            border-color: var(--accent-purple);
+            box-shadow: 0 0 10px rgba(139, 92, 246, 0.25);
+        }
+
+        .input-icon { padding: 0 12px; color: var(--text-muted); font-size: 14px; }
+        .number-control input, .select-control select {
+            width: 100%;
+            background: transparent;
+            border: none;
+            color: #fff;
+            text-align: center;
+            font-size: 15px;
+            font-weight: 700;
+            outline: none;
+        }
+
+        .btn-step {
+            width: 36px;
+            height: 36px;
+            background: rgba(255, 255, 255, 0.05);
+            border: none;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        .btn-step:hover { background: rgba(255, 255, 255, 0.15); }
+
+        .select-wrapper {
+            background: var(--input-bg);
+            border: 1px solid var(--input-border);
+            border-radius: 12px;
+            padding: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .select-wrapper select {
+            background: transparent;
+            border: none;
+            color: #fff;
+            font-size: 13px;
+            width: 100%;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .select-wrapper select option { background: #111827; color: #fff; }
+
+        .gender-container { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .gender-btn {
+            background: var(--input-bg);
+            border: 1px solid var(--input-border);
+            border-radius: 12px;
+            padding: 12px;
+            color: var(--text-muted);
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .gender-btn:hover { border-color: rgba(139, 92, 246, 0.4); }
+        .gender-btn.active {
+            background: var(--accent-gradient);
+            color: #fff;
+            border-color: transparent;
+            box-shadow: 0 6px 20px rgba(139, 92, 246, 0.35);
+        }
+
+        /* --- Circular Gauge Results UI --- */
+        .results-section { display: flex; flex-direction: column; gap: 20px; position: relative; }
+
+        .loading-overlay {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(4px);
+            border-radius: 24px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 50;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s ease;
+        }
+
+        .loading-overlay.active { opacity: 1; pointer-events: auto; }
+        .spinner {
+            width: 40px; height: 40px;
+            border: 4px solid rgba(255,255,255,0.1);
+            border-left-color: var(--accent-purple);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .results-top-flex {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        /* SVG Circular Gauge */
+        .circular-gauge-container {
+            position: relative;
+            width: 180px;
+            height: 180px;
+            flex-shrink: 0;
+        }
+
+        .circular-gauge-container svg {
+            width: 100%;
+            height: 100%;
+            transform: rotate(-90deg);
+        }
+
+        .gauge-bg {
+            fill: none;
+            stroke: rgba(255, 255, 255, 0.05);
+            stroke-width: 12;
+        }
+
+        .gauge-progress {
+            fill: none;
+            stroke-width: 12;
+            stroke-dasharray: 440;
+            stroke-dashoffset: 440;
+            stroke-linecap: round;
+            transition: stroke-dashoffset 0.6s cubic-bezier(0.16, 1, 0.3, 1), stroke 0.4s ease;
+        }
+
+        .gauge-center-content {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+
+        .gauge-val { font-size: 34px; font-weight: 800; line-height: 1; }
+        .gauge-unit { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+
+        /* Dynamic Status Banner */
+        .status-banner {
+            flex: 1;
+            padding: 18px 20px;
+            border-radius: 16px;
+            border: 1px solid transparent;
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .status-icon { font-size: 24px; margin-top: 2px; }
+        .status-info h4 { font-size: 16px; font-weight: 700; margin-bottom: 6px; }
+        .status-info p { font-size: 13px; opacity: 0.9; line-height: 1.6; }
+
+        /* Status Colors */
+        .status-underweight { background: rgba(59, 130, 246, 0.12); border-color: rgba(59, 130, 246, 0.35); color: var(--color-underweight); }
+        .status-normal { background: rgba(16, 185, 129, 0.12); border-color: rgba(16, 185, 129, 0.35); color: var(--color-normal); }
+        .status-overweight { background: rgba(245, 158, 11, 0.12); border-color: rgba(245, 158, 11, 0.35); color: var(--color-overweight); }
+        .status-obese { background: rgba(239, 68, 68, 0.12); border-color: rgba(239, 68, 68, 0.35); color: var(--color-obese); }
+
+        /* Metric Cards Grid */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 12px;
+        }
+
+        .info-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: all 0.3s ease;
+        }
+
+        .info-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(139, 92, 246, 0.4);
+            box-shadow: 0 10px 20px rgba(139, 92, 246, 0.15);
+        }
+
+        .info-card-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .info-card-title { font-size: 11px; color: var(--text-muted); }
+        .info-card-icon { color: var(--accent-purple); font-size: 14px; }
+        .info-card-val { font-size: 16px; font-weight: 700; color: #fff; }
+
+        /* Calorie Goals & Macros Layout */
+        .details-split-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .sub-block {
+            background: rgba(255, 255, 255, 0.015);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 16px;
+        }
+
+        .sub-block-title {
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--accent-cyan);
+        }
+
+        .data-list-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12.5px;
+            padding: 6px 0;
+            border-bottom: 1px dashed rgba(255,255,255,0.05);
+        }
+
+        .data-list-item:last-child { border-bottom: none; }
+        .data-list-item span { color: var(--text-muted); }
+        .data-list-item strong { color: #fff; font-weight: 600; }
+
+        /* Quick Action Bar */
+        .actions-bar {
+            display: flex;
+            gap: 12px;
+            margin-top: 10px;
+        }
+
+        .btn-action-primary {
+            flex: 1;
+            padding: 12px;
+            background: var(--accent-gradient);
+            border: none;
+            border-radius: 12px;
+            color: #fff;
+            font-weight: 700;
+            font-size: 13px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-action-primary:hover {
+            box-shadow: 0 8px 25px rgba(139, 92, 246, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .btn-action-secondary {
+            padding: 12px 18px;
+            background: var(--input-bg);
+            border: 1px solid var(--input-border);
+            border-radius: 12px;
+            color: #fff;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-action-secondary:hover { border-color: var(--accent-purple); transform: translateY(-2px); }
+
+        /* --- Footer --- */
+        footer {
+            border-top: 1px solid var(--card-border);
+            background: rgba(7, 10, 18, 0.8);
+            padding: 30px 8%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+            backdrop-filter: blur(10px);
+        }
+
+        .footer-nav {
+            display: flex;
+            gap: 20px;
+            list-style: none;
+        }
+
+        .footer-nav a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 13px;
+        }
+
+        .footer-nav a:hover { color: var(--accent-purple); }
+
+        .footer-copy { font-size: 12px; color: rgba(255,255,255,0.3); }
+
+        @media print {
+            body { background: #fff; color: #000; }
+            header, .hero, .actions-bar, footer, .btn-lang, .ad-container { display: none !important; }
+            .main-container { grid-template-columns: 1fr; margin: 0; }
+            .glass-panel { background: #fff; border: 1px solid #ccc; box-shadow: none; color: #000; }
+            .info-card, .sub-block { background: #f9f9f9; border: 1px solid #eee; color: #000; }
+            .info-card-val, .data-list-item strong, .gauge-val { color: #000 !important; }
+            .status-banner { border: 1px solid #aaa; color: #000 !important; background: #f0f0f0 !important; }
+        }
+
+        /* --- Responsive Design --- */
+        @media (max-width: 990px) {
+            .hero { flex-direction: column; text-align: center; }
+            .main-container { grid-template-columns: 1fr; }
+            .results-top-flex { flex-direction: column; text-align: center; }
+            .details-split-grid { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 500px) {
+            .cards-grid { grid-template-columns: 1fr 1fr; }
+            .actions-bar { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header>
+        <div class="brand-logo">
+            <i class="fa-solid fa-heart-pulse"></i>
+            <span>KLYDO Health</span>
+        </div>
+        <div class="header-actions">
+            <button class="btn-lang" onclick="toggleLanguage()" aria-label="Language Toggle" id="langBtn">
+                <i class="fa-solid fa-globe"></i> English
+            </button>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-text">
+            <h1 class="hero-title" id="heroTitle">منصة الصحة <span>الذكية الشاملة</span></h1>
+            <p class="hero-desc" id="heroDesc">
+                احسب مؤشر كتلة الجسم (BMI)، معدل الأيض (BMR)، السعرات الحرارية اليومية (TDEE)، واحتياجك المباشر من الماكروز والماء فورياً مع كل تعديل.
+            </p>
+        </div>
+
+        <div class="hero-illustration">
+            <div class="hero-logo-wrapper">
+                <img src="logo.png" alt="شعار KLYDO" class="hero-logo-img">
+            </div>
+        </div>
+    </section>
+
+    <!-- 1. Google AdSense - Top Responsive Banner -->
+    <div class="ad-container ad-top-slot">
+        <div class="ad-placeholder">
+            <i class="fa-rectangle-ad"></i>
+            <span>مساحة إعلانية علوية (Google AdSense Header Banner)</span>
+            <!-- استبدل هذا المكان بكود جوجل أدسينس الخاص بك مستقبلاً -->
+            <!-- <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="XXXXXXXXXX" data-ad-format="auto" data-full-width-responsive="true"></ins> -->
+        </div>
+    </div>
+
+    <!-- Main Application -->
+    <main class="main-container">
+
+        <!-- Input Section -->
+        <section class="glass-panel">
+            <div class="section-header">
+                <h2 class="section-title" id="lblInputsTitle">البيانات الشخصية</h2>
+            </div>
+
+            <!-- Gender -->
+            <div class="input-group">
+                <div class="input-label-row">
+                    <label class="input-label" id="lblGender">الجنس</label>
+                </div>
+                <div class="gender-container">
+                    <button class="gender-btn active" id="maleBtn" onclick="setGender('male')" aria-label="ذكر">
+                        <i class="fa-solid fa-mars"></i> <span id="lblMale">ذكر</span>
+                    </button>
+                    <button class="gender-btn" id="femaleBtn" onclick="setGender('female')" aria-label="أنثى">
+                        <i class="fa-solid fa-venus"></i> <span id="lblFemale">أنثى</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Age -->
+            <div class="input-group">
+                <div class="input-label-row">
+                    <label class="input-label" id="lblAge">العمر (سنة)</label>
+                </div>
+                <div class="number-control">
+                    <i class="fa-solid fa-calendar-days input-icon"></i>
+                    <input type="number" id="ageInput" value="25" min="10" max="120" oninput="onInputChange()" aria-label="العمر">
+                    <button class="btn-step" onclick="adjustValue('ageInput', -1)" aria-label="إنقاص العمر">-</button>
+                    <button class="btn-step" onclick="adjustValue('ageInput', 1)" aria-label="زيادة العمر">+</button>
+                </div>
+            </div>
+
+            <!-- Height -->
+            <div class="input-group">
+                <div class="input-label-row">
+                    <label class="input-label" id="lblHeight">الطول (سم)</label>
+                </div>
+                <div class="number-control">
+                    <i class="fa-solid fa-ruler-vertical input-icon"></i>
+                    <input type="number" id="heightInput" value="175" min="50" max="240" oninput="onInputChange()" aria-label="الطول">
+                    <button class="btn-step" onclick="adjustValue('heightInput', -1)" aria-label="إنقاص الطول">-</button>
+                    <button class="btn-step" onclick="adjustValue('heightInput', 1)" aria-label="زيادة الطول">+</button>
+                </div>
+            </div>
+
+            <!-- Weight -->
+            <div class="input-group">
+                <div class="input-label-row">
+                    <label class="input-label" id="lblWeight">الوزن (كجم)</label>
+                </div>
+                <div class="number-control">
+                    <i class="fa-solid fa-weight-scale input-icon"></i>
+                    <input type="number" id="weightInput" value="82" min="20" max="300" oninput="onInputChange()" aria-label="الوزن">
+                    <button class="btn-step" onclick="adjustValue('weightInput', -1)" aria-label="إنقاص الوزن">-</button>
+                    <button class="btn-step" onclick="adjustValue('weightInput', 1)" aria-label="زيادة الوزن">+</button>
+                </div>
+            </div>
+
+            <!-- Activity Level -->
+            <div class="input-group">
+                <div class="input-label-row">
+                    <label class="input-label" id="lblActivity">مستوى النشاط البدني</label>
+                    <i class="fa-solid fa-circle-question tooltip-icon" data-tooltip="يُستخدم لحساب TDEE وإجمالي السعرات اليومية"></i>
+                </div>
+                <div class="select-wrapper">
+                    <i class="fa-solid fa-person-running input-icon"></i>
+                    <select id="activityInput" onchange="onInputChange()" aria-label="مستوى النشاط">
+                        <option value="1.2" id="act1">قليل الحركة (مكتب / لا تمارين)</option>
+                        <option value="1.375" id="act2">نشاط خفيف (تمارين 1-3 أيام/أسبوع)</option>
+                        <option value="1.55" id="act3" selected>نشاط متوسط (تمارين 3-5 أيام/أسبوع)</option>
+                        <option value="1.725" id="act4">نشاط عالي (تمارين 6-7 أيام/أسبوع)</option>
+                        <option value="1.9" id="act5">رياضي محترف (تمارين شاقة يومية)</option>
+                    </select>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dynamic Results Section -->
+        <section class="glass-panel results-section">
+            <div class="loading-overlay" id="loadingOverlay">
+                <div class="spinner"></div>
+            </div>
+
+            <div class="section-header">
+                <h2 class="section-title" id="lblResultsTitle">النتائج والتحليلات الطبية</h2>
+            </div>
+
+            <!-- Top Row: SVG Circular Gauge + Dynamic Status Banner -->
+            <div class="results-top-flex">
+                <div class="circular-gauge-container">
+                    <svg viewBox="0 0 160 160">
+                        <circle class="gauge-bg" cx="80" cy="80" r="70"/>
+                        <circle class="gauge-progress" id="gaugeProgress" cx="80" cy="80" r="70"/>
+                    </svg>
+                    <div class="gauge-center-content">
+                        <div class="gauge-val" id="bmiVal">0.0</div>
+                        <div class="gauge-unit">BMI</div>
+                    </div>
+                </div>
+
+                <div class="status-banner status-normal" id="statusBanner">
+                    <i class="fa-solid fa-circle-check status-icon" id="statusIcon"></i>
+                    <div class="status-info">
+                        <h4 id="statusTitle">جاري الحساب...</h4>
+                        <p id="statusDesc">...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Grid Cards: Basic Metrics -->
+            <div class="cards-grid">
+                <div class="info-card">
+                    <div class="info-card-head">
+                        <span class="info-card-title" id="lblBmr">معدل الأيض (BMR)</span>
+                        <i class="fa-solid fa-fire-flame-curved info-card-icon tooltip-icon" data-tooltip="السعرات الحيوية المستهلكة أثناء الراحة التامة"></i>
+                    </div>
+                    <div class="info-card-val" id="bmrVal">0</div>
+                </div>
+
+                <div class="info-card">
+                    <div class="info-card-head">
+                        <span class="info-card-title" id="lblTdee">طاقة اليوم (TDEE)</span>
+                        <i class="fa-solid fa-bolt info-card-icon tooltip-icon" data-tooltip="إجمالي السعرات المحروقة مع النشاط اليومي"></i>
+                    </div>
+                    <div class="info-card-val" id="tdeeVal">0</div>
+                </div>
+
+                <div class="info-card">
+                    <div class="info-card-head">
+                        <span class="info-card-title" id="lblIdeal">الوزن المثالي</span>
+                        <i class="fa-solid fa-bullseye info-card-icon"></i>
+                    </div>
+                    <div class="info-card-val" id="idealVal">0</div>
+                </div>
+
+                <div class="info-card">
+                    <div class="info-card-head">
+                        <span class="info-card-title" id="lblWater">الماء اليومي</span>
+                        <i class="fa-solid fa-glass-water info-card-icon"></i>
+                    </div>
+                    <div class="info-card-val" id="waterVal">0</div>
+                </div>
+            </div>
+
+            <!-- 2. Google AdSense - Native In-Feed Card -->
+            <div class="ad-container">
+                <div class="ad-placeholder" style="min-height: 80px;">
+                    <i class="fa-solid fa-ad"></i>
+                    <span>مساحة إعلانية داخلية (In-Feed Ad Unit)</span>
+                    <!-- <ins class="adsbygoogle" style="display:block" data-ad-format="fluid" data-ad-layout-key="-fb+5w+4e-db+86" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="XXXXXXXXXX"></ins> -->
+                </div>
+            </div>
+
+            <!-- Detailed Grid: Calorie Goals & Daily Macros -->
+            <div class="details-split-grid">
+                <!-- Calorie Targets -->
+                <div class="sub-block">
+                    <div class="sub-block-title">
+                        <i class="fa-solid fa-calculator"></i>
+                        <span id="lblCalorieGoalsTitle">أهداف السعرات الحرارية</span>
+                    </div>
+                    <div class="data-list-item">
+                        <span id="lblGoalMaintain">للمحافظة على الوزن</span>
+                        <strong id="goalMaintainVal">0 سعرة</strong>
+                    </div>
+                    <div class="data-list-item">
+                        <span id="lblGoalLoss">خسارة الوزن (-500)</span>
+                        <strong id="goalLossVal" style="color: var(--accent-cyan);">0 سعرة</strong>
+                    </div>
+                    <div class="data-list-item">
+                        <span id="lblGoalGain">زيادة الوزن (+500)</span>
+                        <strong id="goalGainVal" style="color: var(--accent-purple);">0 سعرة</strong>
+                    </div>
+                </div>
+
+                <!-- Daily Macros -->
+                <div class="sub-block">
+                    <div class="sub-block-title">
+                        <i class="fa-solid fa-pie-chart"></i>
+                        <span id="lblMacrosTitle">توزيع المغذيات (الماكروز)</span>
+                    </div>
+                    <div class="data-list-item">
+                        <span id="lblProtein">البروتين المقترح</span>
+                        <strong id="macroProteinVal">0 جم</strong>
+                    </div>
+                    <div class="data-list-item">
+                        <span id="lblCarbs">الكربوهيدرات</span>
+                        <strong id="macroCarbsVal">0 جم</strong>
+                    </div>
+                    <div class="data-list-item">
+                        <span id="lblFat">الدهون الصحية</span>
+                        <strong id="macroFatVal">0 جم</strong>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Bar -->
+            <div class="actions-bar">
+                <button class="btn-action-primary" onclick="exportPDF()" aria-label="تحميل PDF">
+                    <i class="fa-solid fa-file-pdf"></i>
+                    <span id="lblBtnPdf">تحميل التقرير PDF</span>
+                </button>
+                <button class="btn-action-secondary" onclick="shareResults()" aria-label="مشاركة">
+                    <i class="fa-solid fa-share-nodes"></i>
+                    <span id="lblBtnShare">مشاركة</span>
+                </button>
+            </div>
+
+        </section>
+    </main>
+
+    <!-- 3. Google AdSense - Bottom Banner -->
+    <div class="ad-container ad-bottom-slot">
+        <div class="ad-placeholder">
+            <i class="fa-rectangle-ad"></i>
+            <span>مساحة إعلانية سفلية (Google AdSense Bottom Banner)</span>
+            <!-- <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="XXXXXXXXXX" data-ad-format="auto" data-full-width-responsive="true"></ins> -->
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="brand-logo" style="font-size: 20px;">KLYDO</div>
+        <ul class="footer-nav">
+            <li><a href="#about" id="lblFootAbout">عن الأداة</a></li>
+            <li><a href="#privacy" id="lblFootPrivacy">سياسة الخصوصية</a></li>
+            <li><a href="#contact" id="lblFootContact">اتصل بنا</a></li>
+            <li><a href="https://github.com" target="_blank" rel="noopener">GitHub</a></li>
+        </ul>
+        <div class="footer-copy">© 2026 KLYDO Health. All Rights Reserved.</div>
+    </footer>
+
+    <!-- Script Logic -->
+    <script>
+        let currentLang = 'ar';
+        let currentGender = 'male';
+        let calcDebounceTimer = null;
+
+        const i18n = {
+            ar: {
+                heroTitle: 'منصة الصحة <span>الذكية الشاملة</span>',
+                heroDesc: 'احسب مؤشر كتلة الجسم (BMI)، معدل الأيض (BMR)، السعرات الحرارية اليومية (TDEE)، واحتياجك المباشر من الماكروز والماء فورياً مع كل تعديل.',
+                lblInputsTitle: 'البيانات الشخصية',
+                lblGender: 'الجنس',
+                lblMale: 'ذكر',
+                lblFemale: 'أنثى',
+                lblAge: 'العمر (سنة)',
+                lblHeight: 'الطول (سم)',
+                lblWeight: 'الوزن (كجم)',
+                lblActivity: 'مستوى النشاط البدني',
+                act1: 'قليل الحركة (مكتب / لا تمارين)',
+                act2: 'نشاط خفيف (تمارين 1-3 أيام/أسبوع)',
+                act3: 'نشاط متوسط (تمارين 3-5 أيام/أسبوع)',
+                act4: 'نشاط عالي (تمارين 6-7 أيام/أسبوع)',
+                act5: 'رياضي محترف (تمارين شاقة يومية)',
+                lblResultsTitle: 'النتائج والتحليلات الطبية',
+                lblBmr: 'معدل الأيض (BMR)',
+                lblTdee: 'طاقة اليوم (TDEE)',
+                lblIdeal: 'الوزن المثالي',
+                lblWater: 'الماء اليومي',
+                lblCalorieGoalsTitle: 'أهداف السعرات الحرارية',
+                lblGoalMaintain: 'للمحافظة على الوزن',
+                lblGoalLoss: 'خسارة الوزن (-500)',
+                lblGoalGain: 'زيادة الوزن (+500)',
+                lblMacrosTitle: 'توزيع المغذيات (الماكروز)',
+                lblProtein: 'البروتين المقترح',
+                lblCarbs: 'الكربوهيدرات',
+                lblFat: 'الدهون الصحية',
+                lblBtnPdf: 'تحميل التقرير PDF',
+                lblBtnShare: 'مشاركة النتائج',
+                lblFootAbout: 'عن الأداة',
+                lblFootPrivacy: 'سياسة الخصوصية',
+                lblFootContact: 'اتصل بنا',
+                unitKcal: 'سعرة/يوم',
+                unitKg: 'كجم',
+                unitL: 'لتر/يوم',
+                unitG: 'جم/يوم'
+            },
+            en: {
+                heroTitle: 'Comprehensive <span>Smart Health Platform</span>',
+                heroDesc: 'Calculate your Body Mass Index (BMI), Basal Metabolic Rate (BMR), Daily Calories (TDEE), and daily Macros & Water intake in real-time.',
+                lblInputsTitle: 'Personal Metrics',
+                lblGender: 'Gender',
+                lblMale: 'Male',
+                lblFemale: 'Female',
+                lblAge: 'Age (Years)',
+                lblHeight: 'Height (cm)',
+                lblWeight: 'Weight (kg)',
+                lblActivity: 'Physical Activity Level',
+                act1: 'Sedentary (Office / No Exercise)',
+                act2: 'Lightly Active (1-3 days/week)',
+                act3: 'Moderately Active (3-5 days/week)',
+                act4: 'Very Active (6-7 days/week)',
+                act5: 'Extra Active (Hard Exercise Daily)',
+                lblResultsTitle: 'Medical Results & Analytics',
+                lblBmr: 'Metabolic Rate (BMR)',
+                lblTdee: 'Daily Energy (TDEE)',
+                lblIdeal: 'Ideal Weight',
+                lblWater: 'Daily Water Intake',
+                lblCalorieGoalsTitle: 'Calorie Targets',
+                lblGoalMaintain: 'Maintain Weight',
+                lblGoalLoss: 'Weight Loss (-500)',
+                lblGoalGain: 'Weight Gain (+500)',
+                lblMacrosTitle: 'Macronutrient Split',
+                lblProtein: 'Protein Target',
+                lblCarbs: 'Carbohydrates',
+                lblFat: 'Healthy Fats',
+                lblBtnPdf: 'Download PDF Report',
+                lblBtnShare: 'Share Results',
+                lblFootAbout: 'About',
+                lblFootPrivacy: 'Privacy Policy',
+                lblFootContact: 'Contact Us',
+                unitKcal: 'kcal/day',
+                unitKg: 'kg',
+                unitL: 'L/day',
+                unitG: 'g/day'
+            }
+        };
+
+        function setGender(gender) {
+            currentGender = gender;
+            document.getElementById('maleBtn').classList.toggle('active', gender === 'male');
+            document.getElementById('femaleBtn').classList.toggle('active', gender === 'female');
+            onInputChange();
+        }
+
+        function adjustValue(id, delta) {
+            const input = document.getElementById(id);
+            let val = parseInt(input.value) || 0;
+            const min = parseInt(input.min) || 0;
+            const max = parseInt(input.max) || 999;
+            
+            val += delta;
+            if (val >= min && val <= max) {
+                input.value = val;
+                onInputChange();
+            }
+        }
+
+        function onInputChange() {
+            const loader = document.getElementById('loadingOverlay');
+            loader.classList.add('active');
+
+            clearTimeout(calcDebounceTimer);
+            calcDebounceTimer = setTimeout(() => {
+                calculateHealthMetrics();
+                loader.classList.remove('active');
+            }, 150);
+        }
+
+        function animateCounter(elementId, targetVal, decimals = 0, suffix = '') {
+            const el = document.getElementById(elementId);
+            if (!el) return;
+            
+            const startVal = parseFloat(el.getAttribute('data-val') || 0);
+            const duration = 400;
+            const startTime = performance.now();
+
+            function update(now) {
+                const elapsed = now - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                const easeOut = 1 - Math.pow(1 - progress, 3);
+                const current = startVal + (targetVal - startVal) * easeOut;
+
+                el.textContent = current.toFixed(decimals) + suffix;
+                el.setAttribute('data-val', current);
+
+                if (progress < 1) requestAnimationFrame(update);
+            }
+            requestAnimationFrame(update);
+        }
+
+        function calculateHealthMetrics() {
+            const age = parseInt(document.getElementById('ageInput').value) || 25;
+            const height = parseInt(document.getElementById('heightInput').value) || 175;
+            const weight = parseFloat(document.getElementById('weightInput').value) || 72;
+            const activity = parseFloat(document.getElementById('activityInput').value) || 1.55;
+
+            const heightM = height / 100;
+            const bmi = parseFloat((weight / (heightM * heightM)).toFixed(1));
+
+            // BMR Calculation
+            let bmr = (10 * weight) + (6.25 * height) - (5 * age);
+            bmr = currentGender === 'male' ? bmr + 5 : bmr - 161;
+            bmr = Math.round(bmr);
+
+            // TDEE Calculation
+            const tdee = Math.round(bmr * activity);
+
+            // Ideal Weight Calculations
+            const minIdeal = parseFloat((18.5 * heightM * heightM).toFixed(1));
+            const maxIdeal = parseFloat((24.9 * heightM * heightM).toFixed(1));
+
+            // Water Requirement
+            const dailyWater = (weight * 0.035).toFixed(1);
+
+            // Macros
+            const proteinGrams = Math.round(weight * 1.8);
+            const fatGrams = Math.round((tdee * 0.25) / 9);
+            const carbGrams = Math.round((tdee - (proteinGrams * 4 + fatGrams * 9)) / 4);
+
+            const lang = i18n[currentLang];
+
+            // Counters Animation
+            animateCounter('bmiVal', bmi, 1);
+            animateCounter('bmrVal', bmr, 0, ` ${lang.unitKcal}`);
+            animateCounter('tdeeVal', tdee, 0, ` ${lang.unitKcal}`);
+            animateCounter('goalMaintainVal', tdee, 0, ` ${lang.unitKcal}`);
+            animateCounter('goalLossVal', Math.max(1200, tdee - 500), 0, ` ${lang.unitKcal}`);
+            animateCounter('goalGainVal', tdee + 500, 0, ` ${lang.unitKcal}`);
+            animateCounter('waterVal', parseFloat(dailyWater), 1, ` ${lang.unitL}`);
+            
+            animateCounter('macroProteinVal', proteinGrams, 0, ` ${lang.unitG}`);
+            animateCounter('macroCarbsVal', Math.max(50, carbGrams), 0, ` ${lang.unitG}`);
+            animateCounter('macroFatVal', fatGrams, 0, ` ${lang.unitG}`);
+
+            document.getElementById('idealVal').textContent = `${minIdeal.toFixed(0)} - ${maxIdeal.toFixed(0)} ${lang.unitKg}`;
+
+            // Gauge SVG Circle Animation
+            const circleCircumference = 440;
+            const bmiClamped = Math.min(Math.max(bmi, 10), 40);
+            const pct = (bmiClamped - 10) / (40 - 10);
+            const strokeOffset = circleCircumference - (pct * circleCircumference);
+
+            const gaugeCircle = document.getElementById('gaugeProgress');
+            gaugeCircle.style.strokeDashoffset = strokeOffset;
+
+            // Status Banner Elements
+            const banner = document.getElementById('statusBanner');
+            const statusIcon = document.getElementById('statusIcon');
+            const statusTitle = document.getElementById('statusTitle');
+            const statusDesc = document.getElementById('statusDesc');
+
+            if (bmi < 18.5) {
+                const gainNeeded = (minIdeal - weight).toFixed(1);
+                banner.className = 'status-banner status-underweight';
+                gaugeCircle.style.stroke = 'var(--color-underweight)';
+                statusIcon.className = 'fa-solid fa-arrow-down status-icon';
+
+                if (currentLang === 'ar') {
+                    statusTitle.textContent = `⚠️ وزنك ناقص بمقدار ${gainNeeded} كجم`;
+                    statusDesc.textContent = `وزنك الحالي أقل من المعدل الطبيعي. تحتاج لزيادة حوالي ${gainNeeded} كجم للوصول إلى الوزن الطبيعي والصحي (الحد الأدنى للمثالي: ${minIdeal} كجم).`;
+                } else {
+                    statusTitle.textContent = `⚠️ Underweight by ${gainNeeded} kg`;
+                    statusDesc.textContent = `Your weight is below normal. You need to gain around ${gainNeeded} kg to reach a healthy weight range (Minimum ideal: ${minIdeal} kg).`;
+                }
+
+            } else if (bmi <= 24.9) {
+                banner.className = 'status-banner status-normal';
+                gaugeCircle.style.stroke = 'var(--color-normal)';
+                statusIcon.className = 'fa-solid fa-circle-check status-icon';
+
+                if (currentLang === 'ar') {
+                    statusTitle.textContent = '✅ وزنك طبيعي ومثالي';
+                    statusDesc.textContent = 'ممتاز! وزنك يقع تماماً ضمن النطاق الصحي الموصى به طبياً وطولك متناسق جداً مع وزنك.';
+                } else {
+                    statusTitle.textContent = '✅ Normal & Healthy Weight';
+                    statusDesc.textContent = 'Great job! Your weight is perfectly within the recommended medical healthy range.';
+                }
+
+            } else if (bmi <= 29.9) {
+                const lossNeeded = (weight - maxIdeal).toFixed(1);
+                banner.className = 'status-banner status-overweight';
+                gaugeCircle.style.stroke = 'var(--color-overweight)';
+                statusIcon.className = 'fa-solid fa-arrow-up status-icon';
+
+                if (currentLang === 'ar') {
+                    statusTitle.textContent = `⚠️ وزنك زائد بمقدار ${lossNeeded} كجم`;
+                    statusDesc.textContent = `وزنك الحالي أعلى من المعدل الطبيعي. تحتاج لخسارة حوالي ${lossNeeded} كجم للوصول للوزن المثالي والصحي (الحد الأعلى للمثالي: ${maxIdeal} كجم).`;
+                } else {
+                    statusTitle.textContent = `⚠️ Overweight by ${lossNeeded} kg`;
+                    statusDesc.textContent = `Your weight is above normal. You need to lose around ${lossNeeded} kg to reach your ideal healthy weight (Maximum ideal: ${maxIdeal} kg).`;
+                }
+
+            } else {
+                const lossNeeded = (weight - maxIdeal).toFixed(1);
+                banner.className = 'status-banner status-obese';
+                gaugeCircle.style.stroke = 'var(--color-obese)';
+                statusIcon.className = 'fa-solid fa-triangle-exclamation status-icon';
+
+                if (currentLang === 'ar') {
+                    statusTitle.textContent = `🚨 سمنة - وزنك زائد بمقدار ${lossNeeded} كجم`;
+                    statusDesc.textContent = `مؤشر كتلة الجسم مرتفع. يُنصح بخسارة حوالي ${lossNeeded} كجم للوصول للنطاق الصحي، واستشارة أخصائي تغذية لتصميم نظام مناسب.`;
+                } else {
+                    statusTitle.textContent = `🚨 Obese - Overweight by ${lossNeeded} kg`;
+                    statusDesc.textContent = `Your BMI is elevated. Losing around ${lossNeeded} kg is recommended to reach a safer healthy range.`;
+                }
+            }
+        }
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'ar' ? 'en' : 'ar';
+            document.documentElement.lang = currentLang;
+            document.documentElement.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
+
+            const lang = i18n[currentLang];
+            document.getElementById('langBtn').innerHTML = `<i class="fa-solid fa-globe"></i> ${currentLang === 'ar' ? 'English' : 'عربي'}`;
+
+            Object.keys(lang).forEach(key => {
+                const el = document.getElementById(key);
+                if (el) {
+                    if (key.startsWith('heroTitle')) el.innerHTML = lang[key];
+                    else el.textContent = lang[key];
+                }
+            });
+
+            calculateHealthMetrics();
+        }
+
+        function exportPDF() { window.print(); }
+
+        function shareResults() {
+            const bmi = document.getElementById('bmiVal').textContent;
+            const tdee = document.getElementById('tdeeVal').textContent;
+            const status = document.getElementById('statusTitle').textContent;
+            const text = `تحليلي الصحي من منصة KLYDO:\n• المؤشر: ${bmi}\n• الحالة: ${status}\n• الاحتياج اليومي: ${tdee}\nاحسب نتيجتك الآن!`;
+
+            if (navigator.share) {
+                navigator.share({ title: 'KLYDO Health Report', text: text });
+            } else {
+                navigator.clipboard.writeText(text);
+                alert(currentLang === 'ar' ? 'تم نسخ التقرير إلى الحافظة بنجاح!' : 'Results copied to clipboard!');
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', calculateHealthMetrics);
+    </script>
+
+    <!-- Google AdSense Script (قم بإلغاء التعليق وضع معرف الحساب الخاص بك هنا بعد القبول) -->
+    <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script> -->
+</body>
+</html>
